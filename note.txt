@@ -1,0 +1,60 @@
+#B1:Cài folder môi trường
+python -m venv venv
+venv\Scripts\activate
+
+#B2:Cài đạt thư viện
+pip install -r requirements.txt
+
+#Khởi chạy streamlit
+streamlit run main.py
+
+
+
+
+#Cách rút gọn câu lệnh
+#powershel
+#B1:Tạo file $PROFILE
+New-Item -ItemType File -Force -Path $PROFILE
+New-Item -ItemType Directory -Force -Path (Split-Path $PROFILE)
+
+#B2:Mở file $PROFILE
+notepad $PROFILE
+
+#B3:Thêm các câu lệnh rút gon
+if (Test-Path ".\venv\Scripts\Activate.ps1") {
+    . .\venv\Scripts\Activate.ps1
+    } else {
+        Write-Host "Không tìm thấy venv trong thư mục này"
+    }
+}
+
+function st {
+    v
+    streamlit run .\main.py
+}
+
+function r {
+    v
+    python .\main.py
+}
+
+function pi {
+    v
+    python -m pip install $args
+}
+
+function freeze {
+    v
+    pip freeze > requirements.txt
+}
+
+function req {
+    v
+    pip install -r requirements.txt
+}
+
+#B4:Chạy file
+. $PROFILE
+
+#Nếu báo lỗi rồi chạy lại bước  B4
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser

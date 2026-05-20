@@ -1,0 +1,84 @@
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# virtual env
+venv/
+.env/
+.venv/
+
+# =========================
+# VSCode
+# =========================
+.vscode/
+
+# =========================
+# Environment variables
+# =========================
+.env
+*.env
+
+# =========================
+# Streamlit
+# =========================
+.streamlit/secrets.toml
+
+# =========================
+# Build / cache
+# =========================
+.pytest_cache/
+.mypy_cache/
+.cache/
+
+# =========================
+# Logs
+# =========================
+*.log
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Jupyter
+# =========================
+.ipynb_checkpoints/
+
+# =========================
+# Data files (nếu là file sinh tự động)
+# =========================
+data/raw/
+data/processed/
+data/export/
+
+# giữ cấu trúc thư mục
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/export/.gitkeep
+
+# =========================
+# Excel output
+# =========================
+*.xlsx
+*.xls
+
+# nếu muốn giữ file mẫu
+!sample.xlsx
+
+# =========================
+# Database local
+# =========================
+*.db
+*.sqlite3
+
+# =========================
+# Temporary
+# =========================
+*.tmp
+*.bak
+*.swp
