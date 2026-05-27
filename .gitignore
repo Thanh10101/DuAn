@@ -82,3 +82,4 @@ data/export/
 *.tmp
 *.bak
 *.swp
+frontend/.streamlit/secrets.toml
