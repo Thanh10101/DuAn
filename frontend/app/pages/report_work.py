@@ -4,8 +4,6 @@ import plotly.express as px
 from io import BytesIO
 from datetime import datetime
 
-st.set_page_config(page_title='Báo cáo công việc', layout='wide')
-
 COLUMNS = [
     'mô tả công việc',
     'thời gian bắt đầu',

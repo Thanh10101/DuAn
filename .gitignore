@@ -83,3 +83,6 @@ data/export/
 *.bak
 *.swp
 frontend/.streamlit/secrets.toml
+note.txt
+
+frontend/app/.env

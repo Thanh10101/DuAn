@@ -21,12 +21,14 @@ New-Item -ItemType Directory -Force -Path (Split-Path $PROFILE)
 notepad $PROFILE
 
 #B3:Thêm các câu lệnh rút gon
-if (Test-Path ".\venv\Scripts\Activate.ps1") {
-    . .\venv\Scripts\Activate.ps1
+function v {
+    if (Test-Path "venv\Scripts\activate") {
+        . venv\Scripts\activate
     } else {
         Write-Host "Không tìm thấy venv trong thư mục này"
     }
 }
+
 
 function st {
     v
@@ -58,3 +60,18 @@ function req {
 
 #Nếu báo lỗi rồi chạy lại bước  B4
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+#Tạo secret 
+python -c "import secrets; print(secrets.token_hex(32))"
+
+#file secret.toml
+[auth]
+redirect_uri = "http://localhost:8501/oauth2callback"
+cookie_secret = "your_cookie_secret"
+
+[auth.default]
+client_id = "your_client"
+client_secret = "your_client_secret"
+server_metadata_url = "https://accounts.google.com/.well-known/openid-configuration"
+
+client_kwargs = { scope = "openid email profile" }

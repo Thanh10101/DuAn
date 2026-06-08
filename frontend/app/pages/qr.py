@@ -1,53 +1,56 @@
-import os
-import re
-import qrcode
 import streamlit as st
-
-
-def safe_filename(name):
-    return re.sub(r'[\\/*?:"<>|]', "_", name)
-
-
-
-def input_list(text):
-    return [x.strip() for x in re.split(r'[\s,]+', text) if x.strip()]
-
+from utils.qr_utils import QrUtils as qr
 
 def main():
-    st.title("Tạo QR hàng loạt")
-    folder = "image/"
-    folder += st.text_input("Nhập tên thư mục cần tạo:")
-    
-    data_input = st.text_area(
-        "Nhập dữ liệu (mỗi dòng 1 QR)",
-        height=300
-    )
+    try:
+        option =  st.radio(
+            label="Chọn cách lưu",
+            options=("Lưu tại máy chủ", "Lưu tại máy con", "Xem mã qr"),
+            index=0  # (Tùy chọn) Vị trí lựa chọn mặc định, bắt đầu từ 0
+        )
 
-    if st.button("Tạo QR"):
-        if not folder:
-            st.warning("Chưa nhập nhập thư mục cần lưu")
-            return
-        
-        os.makedirs(str(folder), exist_ok=True)
+        data_input = st.text_area(
+            "Nhập dữ liệu (mỗi dòng 1 QR)",
+            height=200
+        )
 
-        data = input_list(data_input)
+        match option:
+            case "Lưu tại máy chủ":
+                folder_name = st.text_input("Nhập tên thư mục cần tạo:")
 
-        if not data:
-            st.warning("Chưa nhập dữ liệu")
-            return
+                folder = "app/image/" + folder_name if folder_name else None
 
-        for item in data:
-            filename = safe_filename(item)
+                if st.button("thêm"):
+                    st.success(qr.SaveServer(folder = folder, input = data_input))
 
-            img = qrcode.make(item)
+            case "Lưu tại máy con":
+                if st.button("Lưu"):
+                    qr.SaveClient(input = data_input)
 
-            save_path = os.path.join(folder, f"{filename}.png")
-            img.save(save_path)
+            case "Xem mã qr":
+                if st.button("Xem"):
+                    cols = st.columns(2)
+                    for i, (key, img) in enumerate(qr.SawQr(data_input).items()):
+                        with cols[i % 2]:
+                            with cols[i % 2]:
 
-            st.write(f"Đã tạo: {save_path}")
+                                st.divider()
 
-        st.success(f"Hoàn tất! Đã tạo {len(data)} QR trong thư mục '{folder}'")
+                                st.markdown(
+                                    f"<h2 style='text-align:center'>{key}</h2>",
+                                    unsafe_allow_html=True
+                                )
+
+                                #Dùng để căn giữa column
+                                left, center, right = st.columns([1,2,1])
+                                with center:
+                                    st.image(
+                                        img.get_image(),
+                                        width=350
+                                    )
+
+    except Exception as e:
+        st.warning(f"Lỗi {e}")
 
 
-if __name__ == "__main__":
-    main()
+main()
